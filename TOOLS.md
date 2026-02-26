@@ -37,4 +37,33 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## Test Automation
+
+When the user sends a message matching "running automation tag {tags}" or "running {scenario} scenario":
+
+1. Extract the tag(s) from the message. Examples:
+   - "running automation tag sales" → `@sales`
+   - "running automation tag sales-unpaid" → `@sales-unpaid`
+   - "running sales scenario" → `@sales`
+   - "running automation tag smoke,regression" → `@smoke,@regression`
+
+2. Run the test command:
+   ```bash
+   cd /Users/ahmadfaris/work/automation_web && npm run test:headless -- --tags "@{tag}"
+   ```
+
+3. Reply with the result:
+   - If exit code 0: "✅ Test passed! Tag: @{tag}"
+   - If exit code non-zero: "❌ Test failed! Tag: @{tag}"
+   - Include a summary from `cucumber-report.json` if it exists (total scenarios, passed, failed, failed scenario names)
+
+4. If there's a `cucumber-report.json` in `/Users/ahmadfaris/work/automation_web/`, parse it and include:
+   - Total scenarios count
+   - Passed/failed count
+   - Names of failed scenarios (if any)
+
+**Important:** Do NOT ask clarifying questions when the user says "running automation tag X" — just execute the test immediately.
+
+---
+
 Add whatever helps you do your job. This is your cheat sheet.
