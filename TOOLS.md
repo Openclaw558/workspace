@@ -27,28 +27,20 @@ If there's a `cucumber-report.json` in `/Users/ahmadfaris/work/automation_web/`,
 
 ## Chronicle Knowledge Base
 
-**Locations:**
-```
-docs/knowledge-base/chronicle/
-├── flow.md              → product flow & architecture
-├── features.md          → fitur-fitur Chronicle
-├── faq.md               → FAQ
-├── role-owner.md        → Owner journey
-├── role-admin.md        → Admin journey
-├── role-manager.md      → Manager journey
-├── user-journeys.md     → Combined journeys
-├── chronicle-full.md    → Full extracted knowledge
-└── knowledge-index.json → Screen/module index
-```
+**Location:** `docs/knowledge-base/chronicle/`
 
-**Retrieval Logic:**
-- Dari `AFFECTED_MODULES` → cari screen/module relevan
-- Dari `TARGET_ROLE` → load role-specific file
-- Cross-role query → `user-journeys.md` atau `chronicle-full.md`
+**Key files:**
+- `flow.md`, `features.md`, `faq.md` - Product docs
+- `role-owner.md`, `role-admin.md`, `role-manager.md` - Role journeys
+- `chronicle-full.md` - Full knowledge
 
-**Example:**
-- "Dashboard Map error" → `role-owner.md` bagian Dashboard-Map
-- "Manager tidak bisa approve" → `role-manager.md` bagian MANAGER REQUEST REVIEW
+**Retrieval:**
+- Detect module/role → load relevant file
+- Cross-role query → `chronicle-full.md`
+
+**Examples:**
+- "Dashboard Map error" → `role-owner.md`
+- "Manager approval" → `role-manager.md`
 
 ---
 
