@@ -293,6 +293,115 @@ cp IDENTITY.md IDENTITY.md.backup
 
 ---
 
+## Cara Reset Data
+
+Berikut panduan lengkap cara reset OpenClaw, mulai dari yang paling ringan sampai full reset:
+
+### 1. Reset History Chat Saja 🟢 (AMAN)
+
+```bash
+# Hapus riwayat percakapan
+rm -rf ~/.openclaw/agents/main/sessions/*.jsonl
+```
+
+**Efek:**
+- ✅ Agent lupa percakapan lama
+- ✅ Identity & personality tetap utuh
+- ✅ Memory jangka panjang tetap ada
+- ✅ Aman untuk dibersihkan rutin
+
+**Kapan pakai:** Mau mulai chat fresh tanpa kehilangan personality agent.
+
+---
+
+### 2. Reset Memori Agent 🟡 (MEDIUM)
+
+```bash
+# Hapus memori harian dan jangka panjang
+rm -rf workspace/memory/
+rm workspace/MEMORY.md
+```
+
+**Efek:**
+- ✅ Agent lupa preferences & lessons learned
+- ✅ Agent lupa log harian
+- ⚠️ Agent masih punya personality (SOUL.md tetap ada)
+- ⚠️ History chat masih ada (sessions tetap ada)
+
+**Kapan pakai:** Mau agent lupa memori tapi tetap keep personality.
+
+---
+
+### 3. Reset Identity Agent 🔴 (FACTORY RESET)
+
+```bash
+# Hapus SEMUA konfigurasi agent
+rm -rf workspace/IDENTITY.md \
+       workspace/SOUL.md \
+       workspace/AGENTS.md \
+       workspace/USER.md \
+       workspace/MEMORY.md \
+       workspace/memory/
+```
+
+**Efek:**
+- 🔴 Agent kehilangan identity & personality
+- 🔴 Agent kembali ke kondisi awal
+- ⚠️ **BOOTSTRAP.md akan aktif lagi** (agent akan minta setup ulang)
+- ✅ History chat tetap ada (bisa dihapus manual jika perlu)
+
+**Kapan pakai:** Mau setup agent dari nol dengan personality baru.
+
+---
+
+### 4. Nuclear Reset 💣 (FULL REINSTALL)
+
+```bash
+# Hapus SEMUA data OpenClaw (workspace + sessions + config)
+rm -rf ~/.openclaw/
+
+# Install ulang
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
+```
+
+**Efek:**
+- 💣 SEMUA DATA HILANG (workspace + sessions + daemon config)
+- 💣 Seperti install pertama kali
+- 💣 **TIDAK BISA DI-UNDO**
+
+**Kapan pakai:** Ada error critical atau mau mulai dari nol total.
+
+---
+
+### Backup Sebelum Reset
+
+**PENTING:** Backup dulu sebelum reset!
+
+```bash
+# Backup workspace
+cp -r workspace/ workspace.backup/
+
+# Backup sessions
+cp -r ~/.openclaw/agents/main/sessions/ ~/openclaw-sessions.backup/
+
+# Backup config
+cp -r ~/.openclaw/ ~/openclaw-config.backup/
+```
+
+---
+
+### Quick Reference: Apa Yang Dihapus?
+
+| Reset Type | Hapus History Chat | Hapus Memory | Hapus Identity | Hapus Config |
+|------------|-------------------|--------------|----------------|--------------|
+| **🟢 History Saja** | ✅ | ❌ | ❌ | ❌ |
+| **🟡 Memory Agent** | ❌ | ✅ | ❌ | ❌ |
+| **🔴 Factory Reset** | Opsional | ✅ | ✅ | ❌ |
+| **💣 Nuclear Reset** | ✅ | ✅ | ✅ | ✅ |
+
+---
+
 ## Heartbeat System
 
 **HEARTBEAT.md** = Checklist proactive actions. Agent akan "bangun" secara periodik dan:

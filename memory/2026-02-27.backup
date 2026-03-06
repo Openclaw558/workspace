@@ -98,5 +98,53 @@
 
 ---
 
+## 🧪 Test Automation Workflow (Updated 2026-02-27)
+
+**When user requests test run:**
+
+1. **Immediate response:** "🚀 Test sedang berjalan. Saya akan kabari setelah selesai."
+2. **Execute test:** Run command di background/foreground
+3. **Follow up:** "✅ Test selesai! Berikut hasilnya:" + summary
+
+**Why this matters:**
+- User tahu test sedang berjalan (tidak hanging)
+- User tahu akan dikabari setelah selesai
+- User tidak perlu menunggu di WhatsApp (bisa buka yang lain)
+
+**Example responses:**
+- "🚀 Login test sedang berjalan. Saya akan kabari setelah selesai."
+- "🚀 Sales test sedang berjalan (3 scenarios). Saya akan kabari setelah selesai."
+
+**Note: NO time estimation** — depends on internet/server load, can be misleading.
+
+---
+
+## ⚠️ Lesson Learned: Always Send Test Results (2026-02-27)
+
+**Incident:**
+- User requested "run sales" test
+- Test completed successfully (~10 min)
+- WhatsApp disconnected/reconnected during execution
+- Agent forgot to send results to user
+- User had to ask: "kok hasil test nya gak ada?"
+
+**Root Cause:**
+- Agent started test but didn't follow up after completion
+- Disconnect caused context gap
+- No mechanism to ensure results are always sent
+
+**Fix Applied:**
+- Updated TOOLS.md with "Critical: ALWAYS Send Results" section
+- Added instruction to check process status even after disconnect
+- Must parse results from exit code, videos, screenshots
+
+**Prevention:**
+- After test completes, IMMEDIATELY send results
+- Check `videos/` and `screenshots/` for latest files
+- Parse pass/fail from file timestamps and names
+- Never assume user knows test completed
+
+---
+
 ## 🔖 Tags
 #happy-day #milestone #personal #user-registry
