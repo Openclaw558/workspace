@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificate Variable Selector — Checkbox List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+      background: #f4f4f6;
+      padding: 40px 24px;
+      color: #181429;
+    }
+
+    /* ─── PAGE LAYOUT ─────────────────────────────────────────── */
+    .page-title {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(24,20,41,0.4);
+      margin-bottom: 32px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       VARIABLE SELECTOR LIST — Based on user description
+    ══════════════════════════════════════════════════════════ */
+    .selector-wrapper {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(24,20,41,.08), 0 1px 2px rgba(24,20,41,.06);
+      padding: 24px;
+      max-width: 600px;
+    }
+
+    .selector-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: #181429;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(24,20,41,0.12);
+    }
+
+    .variable-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .variable-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background .15s;
+    }
+
+    .variable-row:hover {
+      background: rgba(24,20,41,0.02);
+    }
+
+    /* Checkbox */
+    .mat-checkbox {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .mat-checkbox-input {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(24,20,41,0.4);
+      border-radius: 3px;
+      background: #fff;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .mat-checkbox-input:hover {
+      border-color: #673ab7;
+    }
+    .mat-checkbox-input::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      opacity: 0;
+    }
+    .mat-checkbox.checked .mat-checkbox-input {
+      background: #673ab7;
+      border-color: #673ab7;
+    }
+    .mat-checkbox.checked .mat-checkbox-input::after {
+      opacity: 1;
+    }
+
+    /* Variable Name — Monospace */
+    .variable-name {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(24,20,41,0.85);
+      background: rgba(24,20,41,0.04);
+      padding: 4px 10px;
+      border-radius: 4px;
+      min-width: 140px;
+      flex-shrink: 0;
+    }
+
+    /* Label — Sans-serif */
+    .variable-label {
+      font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #181429;
+      flex: 1;
+    }
+
+    /* NEW Row Highlight */
+    .variable-row.new-item {
+      background: rgba(103,58,183,0.06);
+      border: 1px dashed rgba(103,58,183,0.3);
+      outline-offset: -1px;
+    }
+    .variable-row.new-item:hover {
+      background: rgba(103,58,183,0.1);
+      border-color: rgba(103,58,183,0.5);
+    }
+    .new-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: #fff;
+      background: #673ab7;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ─── ANNOTATION LEGEND ───────────────────────────────────── */
+    .legend {
+      margin-top: 32px;
+      padding: 16px 20px;
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+      border-radius: 0 6px 6px 0;
+      font-size: 13px;
+      color: rgba(24,20,41,0.75);
+      line-height: 20px;
+    }
+    .legend strong { color: #181429; }
+    .legend ul { margin-top: 8px; padding-left: 20px; }
+    .legend ul li { margin-bottom: 4px; }
+    .note {
+      font-size: 11px;
+      color: rgba(24,20,41,0.5);
+      font-style: italic;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(24,20,41,0.03);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="page-title">Chronicle — Certificate Variable Selector · Mockup · 2026-03-15</p>
+
+  <!-- ═══════════════════════════════════════════════
+       VARIABLE SELECTOR LIST
+       Based on user description (not found in gitNexus)
+  ═══════════════════════════════════════════════ -->
+  <div class="selector-wrapper">
+
+    <div class="selector-title">Select Certificate Variables</div>
+
+    <div class="variable-list">
+
+      <!-- Row 1: int-nok-title -->
+      <div class="variable-row">
+        <label class="mat-checkbox">
+          <input type="checkbox" class="mat-checkbox-input" />
+        </label>
+        <code class="variable-name">int-nok-title</code>
+        <span class="variable-label">Internet Next Of Kin Title</span>
+      </div>
+
+      <!-- Row 2: int-nok-fir-name -->
+      <div class="variable-row">
+        <label class="mat-checkbox">
+          <input type="checkbox" class="mat-checkbox-input" />
+        </label>
+        <code class="variable-name">int-nok-fir-name</code>
+        <span class="variable-label">Internet Next Of Kin First Name</span>
+      </div>
+
+      <!-- Row 3: int-nok-last-name -->
+      <div class="variable-row">
+        <label class="mat-checkbox">
+          <input type="checkbox" class="mat-checkbox-input" />
+        </label>
+        <code class="variable-name">int-nok-last-name</code>
+        <span class="variable-label">Internet Next Of Kin Last Name</span>
+      </div>
+
+      <!-- Row 4: int-nok-mid-name -->
+      <div class="variable-row">
+        <label class="mat-checkbox">
+          <input type="checkbox" class="mat-checkbox-input" />
+        </label>
+        <code class="variable-name">int-nok-mid-name</code>
+        <span class="variable-label">Internet Next Of Kin Middle Name</span>
+      </div>
+
+      <!-- NEW ROW: int-nok-full-name -->
+      <div class="variable-row new-item">
+        <label class="mat-checkbox">
+          <input type="checkbox" class="mat-checkbox-input" />
+        </label>
+        <code class="variable-name">int-nok-full-name</code>
+        <span class="variable-label">Internet Next Of Kin Full Name</span>
+        <span class="new-badge">NEW</span>
+      </div>
+
+    </div><!-- /variable-list -->
+
+  </div><!-- /selector-wrapper -->
+
+
+  <!-- ═══════════════════════════════════════════
+       ANNOTATION LEGEND
+  ═══════════════════════════════════════════ -->
+  <div class="legend">
+    <strong>📋 Change Summary — Certificate Variable Selector (Checkbox List)</strong>
+    <ul>
+      <li>
+        <strong>Action:</strong>
+        Added new list item: <code>int-nok-full-name</code>
+      </li>
+      <li>
+        <strong>Structure:</strong>
+        <ul>
+          <li>Checkbox input (unchecked)</li>
+          <li>Variable Name in monospace font</li>
+          <li>Label in sans-serif font</li>
+          <li>10px gap between rows</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Position:</strong>
+        Added at the end of the list, after <code>int-nok-mid-name</code>
+      </li>
+      <li>
+        <strong>Highlight:</strong>
+        <ul>
+          <li>Background: <code>rgba(103,58,183,0.06)</code> (purple tint)</li>
+          <li>Dashed border: <code>rgba(103,58,183,0.3)</code></li>
+          <li><strong>NEW</strong> badge (purple background)</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Behavior:</strong>
+        Checking a box enables that variable for the certificate template.
+        Unchecked boxes are not included in the template.
+      </li>
+    </ul>
+
+    <div class="note">
+      <strong>Note:</strong> This mockup is based on your description. The UI structure (checkbox + monospace variable name + label) was not found in the gitNexus codebase search. This may be a custom component or from a different part of the system.
+    </div>
+  </div>
+
+</body>
+</html>
