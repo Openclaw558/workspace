@@ -81,7 +81,7 @@ Format: `{ "active": ["+628xxx", "+628yyy"] }`
 - Can discuss internal architecture & code structure
 - Can change model, thinking level, and system config
 
-**Trusted contacts** (+6281316766678, +628116111289, +6281556849078, +6287884834521):
+**Trusted contacts** (+6281545866525):
 - ✅ Dapat direspons langsung tanpa dipanggil
 - ✅ Can access public docs: `docs/knowledge-base/` & `chronicle-automation/`
 - ❌ Cannot modify workspace files or system config
