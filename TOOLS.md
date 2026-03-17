@@ -131,7 +131,6 @@ Setelah eksekusi alias, jalankan juga: `openclaw gateway restart`
 |---|---|
 | pakai claude / ganti ke claude / use claude | `use-claude` |
 | pakai glm / ganti ke glm / use glm | `use-glm` |
-| pakai glm-5 / ganti ke glm5 | `use-glm5` |
 
 ### Ganti Thinking Level
 | Trigger user | Command |
