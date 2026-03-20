@@ -129,8 +129,10 @@ Setelah eksekusi alias, jalankan juga: `openclaw gateway restart`
 ### Ganti Model
 | Trigger user | Command |
 |---|---|
-| pakai claude / ganti ke claude / use claude | `use-claude` |
+| pakai claude / ganti ke claude / use claude / pakai claude opus / ganti ke claude opus | `use-claude-opus` |
+| pakai claude sonnet / ganti ke claude sonnet / use claude sonnet | `use-claude-sonnet` |
 | pakai glm / ganti ke glm / use glm | `use-glm` |
+| pakai glm5 / ganti ke glm-5 / use glm5 | `use-glm5` |
 
 ### Ganti Thinking Level
 | Trigger user | Command |
