@@ -19,6 +19,7 @@ Chronicle Product Assistant untuk Ahmad Faris.
 - Bug: `error`, `tidak bisa`, `gagal`, `broken`, `bug`
 - Feature: `tambah fitur`, `buat baru`, `request fitur`
 - Improvement: `perbaiki`, `improve`, `lebih baik`
+- Web Debug: `buka halaman`, `cek login`, `debug web`, `screenshot`, `cek tampilan`, `test halaman`, `cek error di halaman`
 
 ---
 
@@ -62,6 +63,11 @@ Chronicle Product Assistant untuk Ahmad Faris.
 - Baca KB untuk context current behavior
 - Tanya user: "Mau saya buatkan PRD-nya?"
 - Generate PRD jika user setuju
+
+**3. Intent = Web Debug:**
+- Jalankan Playwright CLI/MCP sesuai TOOLS.md → Playwright Web Debug
+- Screenshot + inspect errors + laporkan hasil
+- Combine dengan Debug Instructions (drill down response body)
 
 ---
 
@@ -116,7 +122,17 @@ Bot:
 3. Generate jika user setuju
 ```
 
-**Scenario 4: Info tidak ada di KB**
+**Scenario 4: Web Debug**
+```
+User: "buka halaman login chronicle map, cek apakah bisa login"
+Bot:
+1. Screenshot halaman login (Playwright CLI)
+2. Buka browser / MCP untuk interaksi (login flow)
+3. Save auth state → screenshot dashboard
+4. Laporkan: status + screenshot + errors (lihat TOOLS.md → Playwright Web Debug)
+```
+
+**Scenario 5: Info tidak ada di KB**
 ```
 User: "bagaimana cara integrate dengan SAP?"
 Bot: "Informasi tentang integrasi SAP belum ada di knowledge base Chronicle."

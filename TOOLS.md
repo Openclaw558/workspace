@@ -39,6 +39,14 @@ If there's a `cucumber-report.json` in `/Users/ahmadfaris/work/automation_web/`,
 
 ---
 
+## Chronicle URLs
+- **Production (Map):** https://map.chronicle.rip
+- **Admin Panel (Production):** https://aus.chronicle.rip/chronicle-admin
+- **Staging:** https://staging.chronicle.rip
+- **Dev:** https://dev.chronicle.rip
+
+---
+
 ## Chronicle Knowledge Base
 
 **Location:** `docs/knowledge-base/chronicle/`
@@ -113,6 +121,123 @@ mcporter call gitnexus.raw_graph_query cypher="MATCH (fn:Symbol) RETURN fn.name 
 - Jangan tanya klarifikasi kalau tag `gitNexus` sudah ada — langsung eksekusi
 
 ---
+
+## 🌐 Playwright Web Debug (CLI + MCP)
+
+**Trigger:** User minta debug halaman web, cek login, cek tampilan, screenshot halaman, atau kata kunci seperti:
+- "buka halaman X", "cek login", "debug web", "screenshot halaman"
+- "cek apakah bisa login", "buka chronicle map", "test halaman"
+- "cek error di halaman", "lihat tampilan", "debug browser"
+
+**Artifacts:** Semua output disimpan ke `/Users/ahmadfaris/.openclaw/.playwright-mcp/`
+
+### A. Playwright CLI — Quick Debug
+
+**Screenshot halaman:**
+```bash
+npx playwright screenshot \
+  --full-page \
+  --ignore-https-errors \
+  --viewport-size "1280,720" \
+  --timeout 30000 \
+  "<URL>" \
+  "/Users/ahmadfaris/.openclaw/.playwright-mcp/debug-$(date +%Y%m%d-%H%M%S).png"
+```
+
+**Buka browser interaktif:**
+```bash
+npx playwright open --ignore-https-errors --viewport-size "1280,720" "<URL>"
+```
+
+**Login flow dengan saved session:**
+```bash
+# 1. Buka browser → user login manual → save session
+npx playwright open \
+  --save-storage "/Users/ahmadfaris/.openclaw/.playwright-mcp/auth-state.json" \
+  --ignore-https-errors \
+  "<LOGIN_URL>"
+
+# 2. Pakai session untuk akses halaman protected
+npx playwright screenshot \
+  --load-storage "/Users/ahmadfaris/.openclaw/.playwright-mcp/auth-state.json" \
+  --full-page --ignore-https-errors \
+  "<PROTECTED_URL>" \
+  "/Users/ahmadfaris/.openclaw/.playwright-mcp/debug-$(date +%Y%m%d-%H%M%S).png"
+```
+
+**Capture network (HAR):**
+```bash
+npx playwright open \
+  --save-har "/Users/ahmadfaris/.openclaw/.playwright-mcp/traffic-$(date +%Y%m%d-%H%M%S).har" \
+  --ignore-https-errors "<URL>"
+```
+
+### B. Playwright MCP — AI Agent Controlled Browser
+
+Untuk skenario agen perlu **kontrol browser secara programatik** (navigate, click, fill form, screenshot otomatis):
+
+```bash
+# Headless — agen kontrol penuh, tanpa tampilan browser
+npx @playwright/mcp \
+  --headless \
+  --browser chrome \
+  --caps vision,devtools \
+  --ignore-https-errors \
+  --output-dir "/Users/ahmadfaris/.openclaw/.playwright-mcp/" \
+  --save-trace \
+  --viewport-size "1280x720"
+
+# Headed — user bisa lihat browser, agen tetap kontrol
+npx @playwright/mcp \
+  --browser chrome \
+  --caps vision,devtools \
+  --ignore-https-errors \
+  --output-dir "/Users/ahmadfaris/.openclaw/.playwright-mcp/" \
+  --save-trace \
+  --viewport-size "1280x720"
+
+# SSE mode — expose sebagai server untuk integrasi openclaw gateway
+npx @playwright/mcp \
+  --port 18793 \
+  --headless \
+  --browser chrome \
+  --caps vision,devtools \
+  --ignore-https-errors \
+  --output-dir "/Users/ahmadfaris/.openclaw/.playwright-mcp/" \
+  --save-trace
+```
+
+**MCP Capabilities:**
+- `vision` — screenshot → kirim sebagai gambar ke AI untuk analisis visual
+- `devtools` — Console errors, Network requests, DOM inspection
+- `pdf` — save halaman sebagai PDF
+
+### Contoh Skenario
+
+**"bantu buka halaman login chronicle map, cek apakah bisa login"**
+```
+1. Screenshot halaman login → cek tampilan OK
+2. Buka browser interaktif → user login manual (atau MCP fill form otomatis)
+3. Save storage state setelah login berhasil
+4. Screenshot dashboard map → konfirmasi login sukses
+5. Laporkan: status login + screenshot + any errors
+```
+
+**"cek kenapa dashboard map error di staging"**
+```
+1. Screenshot halaman staging dashboard
+2. Buka dengan HAR recording → capture network errors
+3. Cek console errors via devtools (MCP)
+4. Drill down response body untuk 4xx/5xx (lihat Debug Instructions di atas)
+5. Laporkan: screenshot + HTTP errors + console errors + response body
+```
+
+**Penting:**
+- Screenshot SEBELUM dan SESUDAH action untuk dokumentasi
+- Simpan semua artifacts ke `.playwright-mcp/`
+- Untuk halaman auth: coba load `auth-state.json` dulu — jika expired, minta user login ulang
+- Combine dengan 🐛 Debug Instructions (drill down response body)
+- Langsung eksekusi sesuai trigger, jangan tanya konfirmasi
 
 ---
 
